@@ -22,7 +22,7 @@ func CheckUserPass(username, password string) bool {
 		return false
 	}
 
-	// create a new http request
+	// create a new http request la para a api de logon
 	requestBody, err := http.NewRequest("GET", "https://r9jv3rrmsw.us-east-1.awsapprunner.com/logon", bytes.NewBuffer(requestDataBytes))
 	if err != nil {
 		log.Println(err)

@@ -91,12 +91,29 @@ func IndexGetHandler() gin.HandlerFunc {
 }
 
 func DashboardGetHandler() gin.HandlerFunc {
+	texto := "Ultimos Pontos:"
+	danilo := "Danilo: "
+	paty := "Paty: "
+	bianca := "Bianca: "
 	return func(c *gin.Context) {
 		session := sessions.Default(c)
 		user := session.Get(globals.Userkey)
 		c.HTML(http.StatusOK, "dashboard.html", gin.H{
-			"content": "This is a dashboard",
-			"user":    user,
+			"texto":  texto,
+			"danilo": danilo,
+			"paty":   paty,
+			"bianca": bianca,
+			"user":   user,
+		})
+	}
+}
+
+func CadastroGetHandler() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		session := sessions.Default(c)
+		user := session.Get(globals.Userkey)
+		c.HTML(http.StatusOK, "cadastro.html", gin.H{
+			"user": user,
 		})
 	}
 }
