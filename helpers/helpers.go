@@ -53,3 +53,36 @@ func CheckUserPass(username, password string) bool {
 func EmptyUserPass(username, password string) bool {
 	return strings.Trim(username, " ") == "" || strings.Trim(password, " ") == ""
 }
+
+func Cadastro(nome, cpf, datanascimento, nomecompleto, password string) {
+	colaborador := map[string]interface{}{
+		"nome":            nome,
+		"cpf":             cpf,
+		"data-nascimento": datanascimento,
+		"nome-completo":   nomecompleto,
+		"senha":           password,
+	}
+	colaboradorJ, err := json.Marshal(colaborador)
+	if err != nil {
+		log.Println("Error marshaling colaborador:", err)
+		return
+	}
+
+	// create a POST request with the JSON payload
+	url := "https://r9jv3rrmsw.us-east-1.awsapprunner.com/signin"
+	req, err := http.NewRequest("POST", url, bytes.NewBuffer(colaboradorJ))
+	if err != nil {
+		log.Println("Error creating request:", err)
+		return
+	}
+	req.Header.Set("Content-Type", "application/json")
+
+	// send the request and print the response
+	client := http.DefaultClient
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Println("Error sending request:", err)
+		return
+	}
+	defer resp.Body.Close()
+}

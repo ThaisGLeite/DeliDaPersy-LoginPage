@@ -1,16 +1,13 @@
 package main
 
 import (
-	"github.com/gin-contrib/sessions"
-	"github.com/gin-contrib/sessions/cookie"
-	"github.com/gin-gonic/gin"
-
-	//"html/template"
-	//"strings"
-
 	globals "loginpage/globals"
 	middleware "loginpage/middleware"
 	routes "loginpage/routes"
+
+	"github.com/gin-contrib/sessions"
+	"github.com/gin-contrib/sessions/cookie"
+	"github.com/gin-gonic/gin"
 )
 
 func main() {

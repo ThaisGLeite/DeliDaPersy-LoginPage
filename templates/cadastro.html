@@ -4,15 +4,12 @@
     <div class="column"></div>
     <div class="column is-one-third">
 
-      <form action="/login" method="post">
-
+      <form action="/signin" method="post">
         <div class="container" style="border: 1px solid lightgray; border-radius: 3px;padding: 15px;">
-
-          {{if .content}}
+          {{if .cadastrado}}
           <div class="notification is-danger is-light">
-            {{.content}}
+            {{.cadastrado}}
           </div>
-
           {{end}}
 
           <div class="field">
@@ -48,7 +45,6 @@
           <div class="field">
             <button class="button is-link">Cadastrar</button>
           </div>
-
         </div>
       </form>
     </div>

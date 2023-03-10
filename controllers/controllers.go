@@ -109,11 +109,34 @@ func DashboardGetHandler() gin.HandlerFunc {
 }
 
 func CadastroGetHandler() gin.HandlerFunc {
+	log.Println("Entrou na fun~ao casdadtro")
 	return func(c *gin.Context) {
 		session := sessions.Default(c)
 		user := session.Get(globals.Userkey)
 		c.HTML(http.StatusOK, "cadastro.html", gin.H{
 			"user": user,
 		})
+	}
+}
+
+func SigninGetHandler() gin.HandlerFunc {
+
+	return func(c *gin.Context) {
+		session := sessions.Default(c)
+		user := session.Get(globals.Userkey)
+
+		//Pegar as coisas do uusario pra gravar
+		username := c.PostForm("username")
+		cpf := c.PostForm("cpf")
+		datanascimento := c.PostForm("datanascimento")
+		nomecompleto := c.PostForm("nomecompleto")
+		password := c.PostForm("password")
+		helpers.Cadastro(username, cpf, datanascimento, nomecompleto, password)
+
+		c.HTML(http.StatusOK, "cadastro.html", gin.H{
+			"user":       user,
+			"cadastrado": "Usuário Cadastrado com sucesso.",
+		})
+		//TODO ajustar o mapeamento para cadastrar os itens com o mapeamento json correto
 	}
 }
