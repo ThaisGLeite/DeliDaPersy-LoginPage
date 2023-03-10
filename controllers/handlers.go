@@ -1,11 +1,13 @@
 package controllers
 
 import (
+	"log"
+
 	"github.com/gin-contrib/sessions"
 
-	"github.com/gin-gonic/gin"
-	"log"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 
 	globals "loginpage/globals"
 	helpers "loginpage/helpers"
@@ -71,12 +73,8 @@ func LogoutGetHandler() gin.HandlerFunc {
 			log.Println("Invalid session token")
 			return
 		}
-		session.Delete(globals.Userkey)
-		if err := session.Save(); err != nil {
-			log.Println("Failed to save session:", err)
-			return
-		}
-
+		session.Clear()
+		session.Save()
 		c.Redirect(http.StatusMovedPermanently, "/")
 	}
 }

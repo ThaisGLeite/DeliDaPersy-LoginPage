@@ -14,6 +14,7 @@ func PublicRoutes(g *gin.RouterGroup) {
 
 }
 
+// Rotas q so pode usar depois do logon
 func PrivateRoutes(g *gin.RouterGroup) {
 
 	g.GET("/dashboard", controllers.DashboardGetHandler())
