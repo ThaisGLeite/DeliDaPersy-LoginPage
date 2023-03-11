@@ -23,7 +23,7 @@ func CheckUserPass(username, password string) bool {
 	}
 
 	// create a new http request la para a api de logon
-	requestBody, err := http.NewRequest("GET", "https://r9jv3rrmsw.us-east-1.awsapprunner.com/logon", bytes.NewBuffer(requestDataBytes))
+	requestBody, err := http.NewRequest("POST", "http://srcdymw896.execute-api.us-east-1.amazonaws.com/api-login/logon", bytes.NewBuffer(requestDataBytes))
 	if err != nil {
 		log.Println(err)
 		return false
@@ -68,7 +68,7 @@ func Cadastro(nome, cpf, datanascimento, nomecompleto, password string) {
 	}
 
 	// create a POST request with the JSON payload
-	url := "https://r9jv3rrmsw.us-east-1.awsapprunner.com/signin"
+	url := "http://srcdymw896.execute-api.us-east-1.amazonaws.com/api-login/signin"
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer(colaboradorJ))
 	if err != nil {
 		log.Println("Error creating request:", err)
@@ -77,6 +77,33 @@ func Cadastro(nome, cpf, datanascimento, nomecompleto, password string) {
 	req.Header.Set("Content-Type", "application/json")
 
 	// send the request and print the response
+	client := http.DefaultClient
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Println("Error sending request:", err)
+		return
+	}
+	defer resp.Body.Close()
+}
+
+func BatePonto(nome string) {
+	ponto := map[string]string{
+		"nome": nome,
+	}
+	pontoJ, err := json.Marshal(ponto)
+	if err != nil {
+		log.Println("Error marshaling colaborador:", err)
+		return
+	}
+	url := "http://vqief2ixwg.execute-api.us-east-1.amazonaws.com/api-ponto/pontos"
+	req, err := http.NewRequest("POST", url, bytes.NewBuffer(pontoJ))
+	if err != nil {
+		log.Println("Error creating request:", err)
+		return
+	}
+	req.Header.Set("Content-Type", "application/json")
+
+	// send the request
 	client := http.DefaultClient
 	resp, err := client.Do(req)
 	if err != nil {

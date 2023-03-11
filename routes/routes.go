@@ -23,5 +23,6 @@ func PrivateRoutes(g *gin.RouterGroup) {
 	g.GET("/logout", controllers.LogoutGetHandler())
 	g.GET("/cadastro", controllers.CadastroGetHandler())
 	g.POST("/signin", controllers.SigninGetHandler())
+	g.POST("/baterponto", controllers.BaterPontoHandler())
 
 }

@@ -2,11 +2,9 @@ package controllers
 
 import (
 	"log"
-
-	"github.com/gin-contrib/sessions"
-
 	"net/http"
 
+	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 
 	globals "loginpage/globals"
@@ -109,7 +107,6 @@ func DashboardGetHandler() gin.HandlerFunc {
 }
 
 func CadastroGetHandler() gin.HandlerFunc {
-	log.Println("Entrou na fun~ao casdadtro")
 	return func(c *gin.Context) {
 		session := sessions.Default(c)
 		user := session.Get(globals.Userkey)
@@ -119,6 +116,7 @@ func CadastroGetHandler() gin.HandlerFunc {
 	}
 }
 
+// Cadastrar um usuario novo
 func SigninGetHandler() gin.HandlerFunc {
 
 	return func(c *gin.Context) {
@@ -138,5 +136,19 @@ func SigninGetHandler() gin.HandlerFunc {
 			"cadastrado": "Usuário Cadastrado com sucesso.",
 		})
 		//TODO ajustar o mapeamento para cadastrar os itens com o mapeamento json correto
+	}
+}
+
+// Bater o ponto
+func BaterPontoHandler() gin.HandlerFunc {
+
+	return func(c *gin.Context) {
+		session := sessions.Default(c)
+		user := session.Get(globals.Userkey)
+		helpers.BatePonto(user.(string))
+		c.HTML(http.StatusOK, "dashboard.html", gin.H{
+			"user":   user,
+			"batido": "Ponto Batido com sucesso.",
+		})
 	}
 }

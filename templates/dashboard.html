@@ -6,6 +6,11 @@
     <h1 class="title">
       Dashboard
     </h1>
+    {{if .batido}}
+    <div class="notification is-success">
+      {{.batido}}
+    </div>
+    {{end}}
 
     <div class="columns">
       <div class="column is-one-third">{{template "menu.html" .}}</div>
