@@ -46,7 +46,6 @@ func CheckUserPass(username, password string) bool {
 		log.Println(err)
 		return false
 	}
-	log.Println(response)
 	return true
 }
 
