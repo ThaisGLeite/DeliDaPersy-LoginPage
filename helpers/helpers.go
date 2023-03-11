@@ -46,7 +46,11 @@ func CheckUserPass(username, password string) bool {
 		log.Println(err)
 		return false
 	}
-	return true
+	if response == "Authorized" {
+		return true
+	}
+	log.Println(response)
+	return false
 }
 
 func EmptyUserPass(username, password string) bool {
@@ -111,4 +115,24 @@ func BatePonto(nome string) {
 		return
 	}
 	defer resp.Body.Close()
+}
+
+// Pegar os ultimos pontos
+func UltimosPontos() []string {
+	url := "http://vqief2ixwg.execute-api.us-east-1.amazonaws.com/api-ponto/pontos"
+	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		log.Println("Error creating request:", err)
+		return []string{}
+	}
+	req.Header.Set("Content-Type", "application/json")
+	// send the request
+	client := http.DefaultClient
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Println("Error sending request:", err)
+		return []string{}
+	}
+	defer resp.Body.Close()
+	return []string{}
 }

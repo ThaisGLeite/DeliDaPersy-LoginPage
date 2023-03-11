@@ -141,7 +141,10 @@ func SigninGetHandler() gin.HandlerFunc {
 
 // Bater o ponto
 func BaterPontoHandler() gin.HandlerFunc {
-
+	texto := "Ultimos Pontos:"
+	danilo := "Danilo: "
+	paty := "Paty: "
+	bianca := "Bianca: "
 	return func(c *gin.Context) {
 		session := sessions.Default(c)
 		user := session.Get(globals.Userkey)
@@ -149,6 +152,14 @@ func BaterPontoHandler() gin.HandlerFunc {
 		c.HTML(http.StatusOK, "dashboard.html", gin.H{
 			"user":   user,
 			"batido": "Ponto Batido com sucesso.",
+			"texto":  texto,
+			"danilo": danilo,
+			"paty":   paty,
+			"bianca": bianca,
 		})
 	}
+}
+
+func RefreshPonto(nome string) []string {
+	return []string{}
 }
