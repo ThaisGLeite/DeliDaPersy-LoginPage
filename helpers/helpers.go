@@ -1,9 +1,11 @@
 package helpers
 
 import (
+	"bufio"
 	"bytes"
 	"encoding/json"
 	"log"
+	"loginpage/globals"
 	"net/http"
 	"strings"
 )
@@ -118,12 +120,12 @@ func BatePonto(nome string) {
 }
 
 // Pegar os ultimos pontos
-func UltimosPontos() []string {
+func UltimosPontos() []globals.Ponto {
 	url := "http://vqief2ixwg.execute-api.us-east-1.amazonaws.com/api-ponto/pontos"
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		log.Println("Error creating request:", err)
-		return []string{}
+		return []globals.Ponto{}
 	}
 	req.Header.Set("Content-Type", "application/json")
 	// send the request
@@ -131,8 +133,19 @@ func UltimosPontos() []string {
 	resp, err := client.Do(req)
 	if err != nil {
 		log.Println("Error sending request:", err)
-		return []string{}
+		return []globals.Ponto{}
 	}
 	defer resp.Body.Close()
-	return []string{}
+	body := bufio.NewScanner(resp.Body)
+	var buffer []byte
+	for body.Scan() {
+		buffer = append(buffer, body.Bytes()...)
+	}
+	data := make([]globals.Ponto, 3)
+	err = json.Unmarshal(buffer, &data)
+	if err != nil {
+		log.Println("1025-Error unmarhal request:", err)
+		return []globals.Ponto{}
+	}
+	return data
 }

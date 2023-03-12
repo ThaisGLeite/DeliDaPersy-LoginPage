@@ -11,7 +11,7 @@ import (
 )
 
 func main() {
-	router := gin.Default()
+	router := gin.New()
 
 	router.Static("/assets", "./assets")
 	router.LoadHTMLGlob("templates/*.html")

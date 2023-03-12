@@ -88,14 +88,22 @@ func IndexGetHandler() gin.HandlerFunc {
 	}
 }
 
-func DashboardGetHandler() gin.HandlerFunc {
+// Se o batePonto for true ele vai bater o ponto do funcionario e depois atualizar a pagina
+func DashboardGetHandler(batePonto bool) gin.HandlerFunc {
 	texto := "Ultimos Pontos:"
 	danilo := "Danilo: "
-	paty := "Paty: "
+	paty := "Patrícia: "
 	bianca := "Bianca: "
 	return func(c *gin.Context) {
 		session := sessions.Default(c)
 		user := session.Get(globals.Userkey)
+		if batePonto {
+			helpers.BatePonto(user.(string))
+		}
+		pontos := helpers.UltimosPontos()
+		bianca += pontos[0].Data
+		danilo += pontos[1].Data
+		paty += pontos[2].Data
 		c.HTML(http.StatusOK, "dashboard.html", gin.H{
 			"texto":  texto,
 			"danilo": danilo,
@@ -137,29 +145,4 @@ func SigninGetHandler() gin.HandlerFunc {
 		})
 		//TODO ajustar o mapeamento para cadastrar os itens com o mapeamento json correto
 	}
-}
-
-// Bater o ponto
-func BaterPontoHandler() gin.HandlerFunc {
-	texto := "Ultimos Pontos:"
-	danilo := "Danilo: "
-	paty := "Paty: "
-	bianca := "Bianca: "
-	return func(c *gin.Context) {
-		session := sessions.Default(c)
-		user := session.Get(globals.Userkey)
-		helpers.BatePonto(user.(string))
-		c.HTML(http.StatusOK, "dashboard.html", gin.H{
-			"user":   user,
-			"batido": "Ponto Batido com sucesso.",
-			"texto":  texto,
-			"danilo": danilo,
-			"paty":   paty,
-			"bianca": bianca,
-		})
-	}
-}
-
-func RefreshPonto(nome string) []string {
-	return []string{}
 }
