@@ -91,25 +91,26 @@ func IndexGetHandler() gin.HandlerFunc {
 // Se o batePonto for true ele vai bater o ponto do funcionario e depois atualizar a pagina
 func DashboardGetHandler(batePonto bool) gin.HandlerFunc {
 	texto := "Ultimos Pontos:"
-	danilo := "Danilo: "
-	paty := "Patrícia: "
-	bianca := "Bianca: "
+	responseBatePonto := ""
+
 	return func(c *gin.Context) {
 		session := sessions.Default(c)
 		user := session.Get(globals.Userkey)
 		if batePonto {
 			helpers.BatePonto(user.(string))
+			responseBatePonto = "Ponto Batido com Sucesso."
 		}
 		pontos := helpers.UltimosPontos()
-		bianca += pontos[0].Data
-		danilo += pontos[1].Data
-		paty += pontos[2].Data
+		bianca := "Bianca: " + pontos[0].Data
+		danilo := "Danilo: " + pontos[1].Data
+		paty := "Patrícia: " + pontos[2].Data
 		c.HTML(http.StatusOK, "dashboard.html", gin.H{
-			"texto":  texto,
-			"danilo": danilo,
-			"paty":   paty,
-			"bianca": bianca,
-			"user":   user,
+			"texto":             texto,
+			"danilo":            danilo,
+			"paty":              paty,
+			"bianca":            bianca,
+			"user":              user,
+			"responsebateponto": responseBatePonto,
 		})
 	}
 }
